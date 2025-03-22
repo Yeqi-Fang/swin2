@@ -95,6 +95,8 @@ def main():
     config.MODEL.SWIN.PATCH_NORM = True
     config.TRAIN.USE_CHECKPOINT = False
     
+    config.MODEL.SWIN.MLP_RATIO = 4
+    
     # Initialize model
     model = SwinUnet(config, img_size=args.img_size, num_classes=args.num_classes).to(device)
     
