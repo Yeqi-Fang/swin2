@@ -1,0 +1,2 @@
+python main.py --mode train --data_dir /mnt/d/fyq/sinogram/2e9div_smooth --batch_size 16 –base-lr 0.05 --batch_size 24
+
