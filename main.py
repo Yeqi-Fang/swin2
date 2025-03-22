@@ -42,7 +42,7 @@ def main():
     parser.add_argument('--save_interval', type=int, default=10, help='Interval for saving models')
     parser.add_argument('--vis_frequency', type=int, default=5, help='Frequency of visualization during testing')
     parser.add_argument('--seed', type=int, default=1234, help='Random seed')
-    
+    parser.add_argument('--test', type=bool, default=False, help='Random seed')
     # Mode
     parser.add_argument('--mode', type=str, choices=['train', 'test'], default='train', 
                         help='Train or test mode')
@@ -105,7 +105,8 @@ def main():
     train_loader, test_loader = create_dataloaders(
         args.data_dir, 
         batch_size=args.batch_size, 
-        num_workers=args.num_workers
+        num_workers=args.num_workers,
+        test=args.test
     )
     
     # Run in the specified mode
