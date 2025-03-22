@@ -38,7 +38,7 @@ def main():
     parser.add_argument('--save_interval', type=int, default=10, help='Interval for saving models')
     parser.add_argument('--vis_frequency', type=int, default=5, help='Frequency of visualization during testing')
     parser.add_argument('--seed', type=int, default=1234, help='Random seed')
-    parser.add_argument('--resume', type=str, default=None, help='Path to checkpoint to resume from')
+    parser.add_argument('--pretrained_weights', type=str, default='pretrained_ckpt\swin_tiny_patch4_window7_224.pth', help='Path to pretrained weights')
     
     # Mode
     parser.add_argument('--mode', type=str, choices=['train', 'test'], default='train', 
@@ -82,15 +82,13 @@ def main():
     config.MODEL.SWIN.APE = False
     config.MODEL.SWIN.PATCH_NORM = True
     config.TRAIN.USE_CHECKPOINT = False
-    config.MODEL.PRETRAIN_CKPT = args.resume
+    config.MODEL.PRETRAIN_CKPT = args.pretrained_weights
     
     # Initialize model
     model = SwinUnet(config, img_size=args.img_size, num_classes=args.num_classes).to(device)
     
-    # Load checkpoint if resuming
-    if args.resume is not None and os.path.isfile(args.resume):
-        print(f"Loading checkpoint from {args.resume}")
-        model.load_state_dict(torch.load(args.resume, map_location=device))
+    # Load pretrained weights using the load_from method
+    model.load_from(config)
     
     # Create dataloaders
     train_loader, test_loader = create_dataloaders(
